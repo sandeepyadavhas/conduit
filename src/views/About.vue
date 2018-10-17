@@ -1,29 +1,32 @@
 <template>
 	<div class="about">
-		<p :v-if="articleData.articlesCount == 0">No Articles</p>
-		<ul>
-			<li v-for="(article, index) in articleData.articles" :key="index">
-				<h3>{{article.title}}</h3>
-				{{new Date(article.createdAt).toDateString()}}<br>
-				<span>{{article.description}}</span>
-				<br>
-				<span v-for="(tag, index) in article.tagList" :key="index">
-					{{tag}}|
-				</span>
-				<Heart 
-					:favorited="article.favorited" 
-					:favoritesCount="article.favoritesCount" 
-					:slug="article.slug"
-					v-on:like-post="print($event);"
-				></Heart>
-			</li>
-		</ul>
-		<PaginationNumbering 
-			:articlesCount="articleData.articlesCount"
-			:articlesInSinglePage="articlesInSinglePage"
-			v-on:set-page="print($event)"
-		></PaginationNumbering>
-		<TagList :tags="tags" v-on:set-tag="setTag($event);"></TagList>
+		<div class="loader" v-if="loading"></div>
+		<div class="main" v-if="!loading">
+			<p v-if="articleData.articlesCount == 0">No Articles</p>
+			<ul>
+				<li v-for="(article, index) in articleData.articles" :key="index">
+					<h3>{{article.title}}</h3>
+					{{new Date(article.createdAt).toDateString()}}<br>
+					<span>{{article.description}}</span>
+					<br>
+					<span v-for="(tag, index) in article.tagList" :key="index">
+						{{tag}}|
+					</span>
+					<Heart 
+						:favorited="article.favorited" 
+						:favoritesCount="article.favoritesCount" 
+						:slug="article.slug"
+						v-on:like-post="likePost($event);"
+					></Heart>
+				</li>
+			</ul>
+			<PaginationNumbering 
+				:articlesCount="articleData.articlesCount"
+				:articlesInSinglePage="articlesInSinglePage"
+				v-on:set-page="setPage($event)"
+			></PaginationNumbering>
+			<TagList :tags="tags" v-on:set-tag="setTag($event);"></TagList>
+		</div>
 	</div>
 </template>
 
@@ -47,11 +50,12 @@ export default {
 			articlesCount: 0
 		},
 		tags: null,
-		articlesInSinglePage: 10
+		articlesInSinglePage: 10,
+		currentlyLoaded: null
 	}},
 	methods: {
-		print(str) {
-			console.log(str);
+		likePost(slug) {
+			console.log(slug);
 		},
 		async init() {
 			let articlePromise = this.getArticles(this.articlesInSinglePage, 0);
@@ -86,22 +90,44 @@ export default {
 			else return [];
 		},
 		async setPage(num) {
-			console.log(num);
+			this.loading = true;			
+			
+			let limit = this.articlesInSinglePage;
+			let offset = (num-1) * this.articlesInSinglePage;
+			let newArticleData; //await this.getArticles(this.articlesInSinglePage, 0);
+			if (this.currentlyLoaded.tag) {
+				let tag = this.currentlyLoaded.tag;
+				newArticleData = await this.getArticles(limit, offset, tag);
+			}
+			else if (this.currentlyLoaded.feed) {
+				newArticleData = await this.getArticles(limit, offset, undefined, true);
+			}
+			else {
+				newArticleData = await this.getArticles(limit, offset);
+			}
+			this.articleData = newArticleData;
+
+			this.loading = false;
 		},
 		async setTag(tag) {
 			this.loading = true;
-			const response = await this.getArticles(this.articlesInSinglePage, 0, tag);
-			if (response && response.data) {
-				this.articleData = response.data;
-			}
+			const newArticleData = await this.getArticles(this.articlesInSinglePage, 0, tag);
+			this.articleData = newArticleData;
+			this.currentlyLoaded = {tag: tag};
 			this.loading = false;
 		},
 		async setFeed() {
 			this.loading = true;
-			const response = await this.getArticles(this.articlesInSinglePage, 0, undefined, true);
-			if (response && response.data) {
-				this.articleData = response.data;
-			}
+			const newArticleData = await this.getArticles(this.articlesInSinglePage, 0, undefined, true);
+			this.articleData = newArticleData;
+			this.currentlyLoaded = {feed: true};
+			this.loading = false;
+		},
+		async setGlobalArticles() {
+			this.loading = true;
+			const newArticleData = await this.getArticles(this.articlesInSinglePage, 0);
+			this.articleData = newArticleData;
+			this.currentlyLoaded = {global: true};
 			this.loading = false;
 		}
 	},
@@ -110,3 +136,28 @@ export default {
 	}
 }
 </script>
+
+<style>
+.hide {
+	display: none;
+}
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}</style>
