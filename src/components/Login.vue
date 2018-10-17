@@ -25,8 +25,8 @@ import AuthenticationService from '@/services/AuthenticationService'
 export default {
 	name: 'Login',
 	data: () => { return{
-		email: 'b',
-		password: 'c',
+		email: '',
+		password: '',
 		status: 'status'
 	}},
 	methods: {

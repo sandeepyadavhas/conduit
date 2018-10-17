@@ -18,6 +18,7 @@
 						:slug="article.slug"
 						v-on:like-post="likePost($event);"
 					></Heart>
+					<router-link :to="'/article/'+article.slug">Read More...</router-link>
 				</li>
 			</ul>
 			<PaginationNumbering 
@@ -31,28 +32,30 @@
 </template>
 
 <script>
-import Heart from '@/components/Heart.vue'
-import ArticleService from '@/services/ArticleService'
-import TagList from '@/components/TagList.vue'
-import PaginationNumbering from '@/components/PaginationNumbering.vue'
+import Heart from "@/components/Heart.vue";
+import ArticleService from "@/services/ArticleService";
+import TagList from "@/components/TagList.vue";
+import PaginationNumbering from "@/components/PaginationNumbering.vue";
 
 export default {
-	name: 'home',
+	name: "home",
 	components: {
 		TagList,
 		PaginationNumbering,
 		Heart
 	},
-	data: () => { return{
-		loading: true,
-		articleData: {
-			articles: null,
-			articlesCount: 0
-		},
-		tags: null,
-		articlesInSinglePage: 10,
-		currentlyLoaded: null
-	}},
+	data: () => {
+		return {
+			loading: true,
+			articleData: {
+				articles: null,
+				articlesCount: 0
+			},
+			tags: null,
+			articlesInSinglePage: 10,
+			currentlyLoaded: {global: true}
+		};
+	},
 	methods: {
 		likePost(slug) {
 			console.log(slug);
@@ -70,39 +73,36 @@ export default {
 			let response;
 			if (feed) {
 				response = await ArticleService.getFeed(limit, offset);
-			}
-			else {
+			} else {
 				response = await ArticleService.getArticles(limit, offset, tag);
 			}
 			if (response && response.data) {
 				return response.data;
-			}
-			else return {
-				articles: null,
-				articlesCount: 0
-			};
+			} else
+				return {
+					articles: null,
+					articlesCount: 0
+				};
 		},
 		async getTagList() {
 			const response = await ArticleService.getTags();
 			if (response && response.data && response.data.tags) {
 				return response.data.tags;
-			}
-			else return [];
+			} else return [];
 		},
 		async setPage(num) {
-			this.loading = true;			
-			
+			this.loading = true;
+
 			let limit = this.articlesInSinglePage;
-			let offset = (num-1) * this.articlesInSinglePage;
-			let newArticleData; //await this.getArticles(this.articlesInSinglePage, 0);
+			let offset = (num - 1) * this.articlesInSinglePage;
+			let newArticleData;
+
 			if (this.currentlyLoaded.tag) {
 				let tag = this.currentlyLoaded.tag;
 				newArticleData = await this.getArticles(limit, offset, tag);
-			}
-			else if (this.currentlyLoaded.feed) {
+			} else if (this.currentlyLoaded.feed) {
 				newArticleData = await this.getArticles(limit, offset, undefined, true);
-			}
-			else {
+			} else {
 				newArticleData = await this.getArticles(limit, offset);
 			}
 			this.articleData = newArticleData;
@@ -111,53 +111,44 @@ export default {
 		},
 		async setTag(tag) {
 			this.loading = true;
-			const newArticleData = await this.getArticles(this.articlesInSinglePage, 0, tag);
+			const newArticleData = await this.getArticles(
+				this.articlesInSinglePage,
+				0,
+				tag
+			);
 			this.articleData = newArticleData;
-			this.currentlyLoaded = {tag: tag};
+			this.currentlyLoaded = { tag: tag };
 			this.loading = false;
 		},
 		async setFeed() {
 			this.loading = true;
-			const newArticleData = await this.getArticles(this.articlesInSinglePage, 0, undefined, true);
+			const newArticleData = await this.getArticles(
+				this.articlesInSinglePage,
+				0,
+				undefined,
+				true
+			);
 			this.articleData = newArticleData;
-			this.currentlyLoaded = {feed: true};
+			this.currentlyLoaded = { feed: true };
 			this.loading = false;
 		},
 		async setGlobalArticles() {
 			this.loading = true;
-			const newArticleData = await this.getArticles(this.articlesInSinglePage, 0);
+			const newArticleData = await this.getArticles(
+				this.articlesInSinglePage,
+				0
+			);
 			this.articleData = newArticleData;
-			this.currentlyLoaded = {global: true};
+			this.currentlyLoaded = { global: true };
 			this.loading = false;
 		}
 	},
 	async created() {
 		this.init();
 	}
-}
+};
 </script>
 
 <style>
-.hide {
-	display: none;
-}
-.loader {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
 
-/* Safari */
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}</style>
+</style>
