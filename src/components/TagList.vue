@@ -1,5 +1,6 @@
 <template>
 	<div class="TagList">
+		<h3>Tags</h3>
 		<ul>
 			<a v-for="(tag, index) in tags" :key="index" v-on:click="$emit('set-tag', tag)">
 				<li>

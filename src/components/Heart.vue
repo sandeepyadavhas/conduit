@@ -21,7 +21,7 @@ export default {
 		slug: String
 	},
 	data: () => { return {
-		isFavorite: false
+		// isFavorite: true
 	}}
 }
 </script>

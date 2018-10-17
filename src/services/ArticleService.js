@@ -1,5 +1,11 @@
 import Api from '@/services/Api'
 
+function getAuthHeader() {
+	if (localStorage.jwtToken) {
+		return { 'Authorization': 'Token ' + localStorage.jwtToken};
+	}
+	else return {};
+}
 export default {
 	getArticles(limit, offset, tag) {
 		let paramObj = {
@@ -20,11 +26,8 @@ export default {
 				offset: offset,
 			}
 		};
-		let authHeader = {
-			'Authorization': 'Token ' + localStorage.jwtToken
-		};
 		return Api().get('/articles/feed', paramObj, {
-			headers: authHeader
+			headers: getAuthHeader()
 		});
 	},
 	getTags() {
@@ -32,5 +35,15 @@ export default {
 	},
 	getArticle(slug) {
 		return Api().get('/articles/'+slug);
+	},
+	addComment(slug, data) {
+		return Api().post('/articles/'+slug+'/comments', data, {
+			headers: getAuthHeader()
+		});
+	},
+	getComments(slug) {
+		return Api().get('/articles/'+slug+'/comments', {
+			headers: getAuthHeader()
+		});
 	}
 }

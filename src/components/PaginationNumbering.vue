@@ -1,7 +1,5 @@
 <template>
 	<div class="PaginationNumbering">
-		PaginationNumbering
-		{{articlesCount}}
 		<ul>
 			<a v-for="index in numberOfPages" :key="index" v-on:click="$emit('set-page', index)">
 				<li>
