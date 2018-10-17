@@ -21,6 +21,7 @@
 <script>
 import ArticleService from "@/services/ArticleService";
 
+
 export default {
 	name: "articleview",
 	components: {},
