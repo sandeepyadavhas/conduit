@@ -6,29 +6,30 @@ function getAuthHeader() {
 	}
 	else return {};
 }
+
 export default {
 	getArticles(limit, offset, tag) {
-		let paramObj = {
+		let config = {
 			params: {
 				limit: limit,
 				offset: offset,
-			}
+			},
+			headers: getAuthHeader()
 		};
 		if (tag) {
-			paramObj.params.tag = tag;
+			config.params.tag = tag;
 		}
-		return Api().get('/articles', paramObj);
+		return Api().get('/articles', config);
 	},
 	getFeed(limit, offset) {
-		let paramObj = {
+		let config = {
 			params: {
 				limit: limit,
 				offset: offset,
-			}
-		};
-		return Api().get('/articles/feed', paramObj, {
+			},
 			headers: getAuthHeader()
-		});
+		};
+		return Api().get('/articles/feed', config);
 	},
 	getTags() {
 		return Api().get('/tags');
@@ -43,6 +44,11 @@ export default {
 	},
 	getComments(slug) {
 		return Api().get('/articles/'+slug+'/comments', {
+			headers: getAuthHeader()
+		});
+	},
+	addArticle(data) {
+		return Api().post('/articles', data, {
 			headers: getAuthHeader()
 		});
 	}

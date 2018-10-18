@@ -21,8 +21,11 @@ export default {
 		slug: String
 	},
 	data: () => { return {
-		// isFavorite: true
-	}}
+		isFavorite: false
+	}},
+	created() {
+		this.isFavorite = this.favorited;
+	}
 }
 </script>
 <style>

@@ -11,7 +11,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-import AuthenticationService from '@/services/AuthenticationService'
+import UserService from '@/services/UserService'
 
 export default {
 	name: 'home',
@@ -22,7 +22,7 @@ export default {
 	}},
 	methods: {
 		async logout() {
-			await AuthenticationService.logout();
+			await UserService.logout();
 			console.log('logged out');
 			location.reload();
 		}

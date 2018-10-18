@@ -1,9 +1,9 @@
 <template>
-	<div class="articleview">
+	<div class="articleview container">
 		<div class="loader" v-if="loading"></div>
 		<div class="main" v-if="article">
 			<h1>{{article.title}}</h1>
-			{{article.body}}
+			<p v-html="printWithNewLine(article.body)"></p>
 			<form v-on:submit.prevent="addComment">
 				<textarea v-model="commentText">
 				</textarea>
@@ -65,6 +65,9 @@ export default {
 				return response.data.comments;
 			}
 			else return [];
+		},
+		printWithNewLine(str) {
+			return str.replace(/\n/g, '<br>');
 		}
 	},
 	async created() {
@@ -73,6 +76,8 @@ export default {
 
 		this.article = await articlePromise;
 		this.comments = await commentPromise;
+
+		// this.article.body = this.article.body.replace(/\n/g, '<br>');
 
 		this.loading = false;
 	}

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import UserService from '@/services/UserService'
 
 export default {
 	name: 'Register',
@@ -39,7 +39,7 @@ export default {
 	methods: {
 		async register() {
 			this.status = 'loading';
-			const response = await AuthenticationService.register(this.username, this.email, this.password);
+			const response = await UserService.register(this.username, this.email, this.password);
 			if (response && response.data && response.data.user) {
 				this.status = response.data.user.username;
 				localStorage.jwtToken = response.data.user.token;

@@ -1,6 +1,8 @@
 import axios from "axios";
 
-let headers = {}
+let headers = {
+	'Access-Control-Allow-Origin': true
+}
 // if (localStorage.jwtToken) {
 // 	headers['Authorization'] = 'Token ' + localStorage.jwtToken;
 // }

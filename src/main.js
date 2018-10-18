@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import AuthenticationService from './services/AuthenticationService'
+import UserService from './services/UserService'
 
 Vue.config.productionTip = false
 
@@ -17,7 +17,7 @@ new Vue({
 	}},
 	async created() {
 		if (localStorage.jwtToken) {
-			const response = await AuthenticationService.getUser();
+			const response = await UserService.getUser();
 			// console.log(response);
 			this.user = response.data.user;
 			console.log('logged in');

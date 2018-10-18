@@ -1,5 +1,12 @@
 import Api from '@/services/Api'
 
+function getAuthHeader() {
+	if (localStorage.jwtToken) {
+		return { 'Authorization': 'Token ' + localStorage.jwtToken};
+	}
+	else return {};
+}
+
 export default {
 	register (username, email, password) {
 		return Api().post('/users', {
@@ -22,11 +29,13 @@ export default {
 		});
 	},
 	getUser() {
-		let authHeader = {
-			'Authorization': 'Token ' + localStorage.jwtToken
-		};
 		return Api().get('/user', {
-			headers: authHeader
+			headers: getAuthHeader()
 		});
+	},
+	getProfile(username) {
+		return Api().get('/profiles/'+username, {
+			headers: getAuthHeader()
+		})
 	}
 }

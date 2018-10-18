@@ -1,60 +1,45 @@
 <template>
-	<div class="about container">
-		<button class="btn">your feed</button>&nbsp;&nbsp;
-		<button class="btn">Global feed</button>
+	<div class="articleList container">
+		<div class="btn-group">
+			<button class="btn btn-outline-primary" v-on:click="setFeed">My feed</button>
+			<button class="btn btn-outline-primary" v-on:click="setGlobalArticles">Global feed</button>
+		</div>
 		<div class="loader" v-if="loading"></div>
 		<div class="row" v-if="!loading">
 			<div class="col-md-8">
-				<div class="main">
-					<p v-if="articleData.articlesCount == 0">No Articles</p>
-					<ul>
-						<li v-for="(article, index) in articleData.articles" :key="index">
-							<h3>{{article.title}}</h3>
-							{{new Date(article.createdAt).toDateString()}}<br>
-							<span>{{article.description}}</span>
-							<br>
-							<span v-for="(tag, index) in article.tagList" :key="index">
-								{{tag}}|
-							</span>
-							<Heart 
-								:favorited="article.favorited" 
-								:favoritesCount="article.favoritesCount" 
-								:slug="article.slug"
-								v-on:like-post="likePost($event);"
-							></Heart>
-							<br>
-							<router-link :to="'/article/'+article.slug">Read More...</router-link>
-						</li>
-					</ul>
-					<PaginationNumbering 
-						:articlesCount="articleData.articlesCount"
-						:articlesInSinglePage="articlesInSinglePage"
-						v-on:set-page="setPage($event)"
-					></PaginationNumbering>
+				<h3>{{heading}}</h3>
+				<p v-if="articleData.articlesCount == 0">No Articles</p>
+				<ul>
+					<li v-for="(article, index) in articleData.articles" :key="index">
+						<ArticleCard :article="article"></ArticleCard>
+					</li>
+				</ul>
+				<PaginationNumbering 
+					:articlesCount="articleData.articlesCount"
+					:articlesInSinglePage="articlesInSinglePage"
+					v-on:set-page="setPage($event)"
+				></PaginationNumbering>
 					
-				</div>
 			</div>
 			<div class="col-md-4">
 				<TagList :tags="tags" v-on:set-tag="setTag($event);"></TagList>
 			</div>
 		</div>
-
-		
 	</div>
 </template>
 
 <script>
-import Heart from "@/components/Heart.vue";
 import ArticleService from "@/services/ArticleService";
 import TagList from "@/components/TagList.vue";
 import PaginationNumbering from "@/components/PaginationNumbering.vue";
+import ArticleCard from "@/components/ArticleCard.vue";
 
 export default {
-	name: "home",
+	name: "articleList",
 	components: {
 		TagList,
 		PaginationNumbering,
-		Heart
+		ArticleCard
 	},
 	data: () => {
 		return {
@@ -67,6 +52,20 @@ export default {
 			articlesInSinglePage: 10,
 			currentlyLoaded: {global: true}
 		};
+	},
+	computed: {
+		heading() {
+			if (this.currentlyLoaded) {
+				if (this.currentlyLoaded.tag) {
+					let tag = this.currentlyLoaded.tag;
+					return '#'+tag;
+				} else if (this.currentlyLoaded.feed) {
+					return 'My Feed';
+				} else {
+					return 'Global Feed'
+				}
+			}
+		}
 	},
 	methods: {
 		likePost(slug) {
@@ -134,13 +133,7 @@ export default {
 		},
 		async setFeed() {
 			this.loading = true;
-			const newArticleData = await this.getArticles(
-				this.articlesInSinglePage,
-				0,
-				undefined,
-				true
-			);
-			this.articleData = newArticleData;
+			this.articleData = await this.getArticles(this.articlesInSinglePage, 0, undefined, true);
 			this.currentlyLoaded = { feed: true };
 			this.loading = false;
 		},
