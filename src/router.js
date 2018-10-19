@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Register from './components/Register.vue'
 import Login from './components/Login.vue'
-import ArticleList from './components/ArticleList.vue'
+import ArticleListView from './components/ArticleListView.vue'
 import ArticleView from './views//ArticleView.vue'
 import NewArticle from './components/NewArticle.vue'
 import Profile from './views/Profile.vue'
@@ -27,7 +27,7 @@ export default new Router({
 		{
 			path: '/about',
 			name: 'about',
-			component: ArticleList
+			component: ArticleListView
 		},
 		{
 			path: '/register',

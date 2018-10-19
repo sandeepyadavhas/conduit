@@ -1,8 +1,9 @@
 <template>
 	<div class="PaginationNumbering">
+		<h3>PaginationNumbering {{selectedPage}}</h3>
 		<ul>
 			<a v-for="index in numberOfPages" :key="index" v-on:click="$emit('set-page', index)">
-				<li>
+				<li v-bind:class="{ active: (index == selectedPage) }">
 					{{index}}
 				</li>
 			</a>
@@ -17,7 +18,8 @@ export default {
 	name: 'PaginationNumbering',
 	props: {
 		articlesCount: Number,
-		articlesInSinglePage: Number
+		articlesInSinglePage: Number,
+		selectedPage: Number
 	},
 	data: () => { return {}},
 	computed: {
@@ -56,6 +58,9 @@ export default {
 		font-weight: bolder;
 	}
 	ul > a > li:hover {
+		background: #ddd;
+	}
+	.active {
 		background: #ddd;
 	}
 </style>
