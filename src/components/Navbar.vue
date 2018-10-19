@@ -1,23 +1,22 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
       <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="navbar-header pull-left">
+          <router-link class="navbar-brand" to="/">Conduit</router-link>
+        </div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
           <!-- <ul class="navbar-nav mr-auto"> -->
             
-          <ul class="navbar-nav mr-auto navbar-right">
-            <li class="nav-link"><router-link to="/">Home</router-link></li>
-            <li class="nav-link"><router-link to="/about">About</router-link></li>
-            <li class="nav-link">{{username}}</li>
+          <ul class="ul">
+            <li><router-link to="/">Home</router-link></li>
+            <!-- <li><router-link to="/about">About</router-link></li> -->
+            <li v-if="user">{{user.username}}</li>
           </ul>
-        </div>
+        <!-- </div> -->
       </div>
-      </nav>
+    </nav>
   </div>
 </template>
 
@@ -28,8 +27,8 @@ export default {
     return {};
   },
   computed: {
-    username() {
-      return this.$root.user ? this.$root.user.username : "";
+    user() {
+      return this.$root.user;
     }
   }
 };
@@ -40,26 +39,12 @@ qwertyuiop
 */
 </script>
 
-<style>
-.navbar-collapse.collapse {
-display: block!important;
+<style scoped>
+ul li{
+  display: inline;
+  padding: 5px;
 }
-
-.navbar-nav>li, .navbar-nav {
-float: left !important;
+ul {
+  margin-top: 10px;
 }
-
-
-.navbar-nav.navbar-right:first-child {
-margin-right: -15px !important;
-}
-
-.navbar-right {
-float: right!important;
-}
-
-/* .nav-link {
-display: inline-block !important;
-width: auto !important;
-} */
 </style>

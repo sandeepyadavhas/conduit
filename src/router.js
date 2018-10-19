@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// import Home from './views/Home.vue'
 import Register from './components/Register.vue'
 import Login from './components/Login.vue'
 import ArticleListView from './components/ArticleListView.vue'
@@ -17,18 +17,18 @@ export default new Router({
 		{
 			path: '/',
 			name: 'home',
-			component: Home
+			component: ArticleListView
 		},
 		{
 			path: '/article/:slug',
 			name: 'article',
 			component: ArticleView
 		},
-		{
-			path: '/about',
-			name: 'about',
-			component: ArticleListView
-		},
+		// {
+		// 	path: '/about',
+		// 	name: 'about',
+		// 	component: ArticleListView
+		// },
 		{
 			path: '/register',
 			name: 'register',
