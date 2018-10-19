@@ -51,5 +51,15 @@ export default {
 		return Api().post('/articles', data, {
 			headers: getAuthHeader()
 		});
+	},
+	likePost(slug) {
+		return Api().post('/articles/'+slug+'/favorite', {}, {
+			headers: getAuthHeader()
+		});
+	},
+	dislikePost(slug) {
+		return Api().delete('/articles/'+slug+'/favorite', {
+			headers: getAuthHeader()
+		});
 	}
 }

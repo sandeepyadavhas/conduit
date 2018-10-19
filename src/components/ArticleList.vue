@@ -1,9 +1,12 @@
 <template>
-	<div class="article">
+	<div class="articleList">
 		<p v-if="articleData.articlesCount == 0">No Articles</p>
 		<ul>
 			<li v-for="(article, index) in articleData.articles" :key="index">
-				<ArticleCard :article="article"></ArticleCard>
+				<ArticleCard 
+					:article="article"
+					v-on:like-post="likePost($event);"
+				></ArticleCard>
 			</li>
 		</ul>
 		<PaginationNumbering 
@@ -26,6 +29,8 @@ export default {
 		articlesInSinglePage: Number,
 		selectedPage: Number
 	},
+	data() { return {
+	}},
 	components: {
 		PaginationNumbering,
 		ArticleCard

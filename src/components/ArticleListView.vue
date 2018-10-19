@@ -67,9 +67,6 @@ export default {
 		}
 	},
 	methods: {
-		likePost(slug) {
-			console.log(slug);
-		},
 		async init() {
 			let globalFeedPromise = this.setGlobalArticles();
 			let tagPromise = this.getTagList();

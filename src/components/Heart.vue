@@ -1,12 +1,12 @@
 <template>
-	<div class="heart" v-bind:class="{liked: isFavorite}">
+	<div class="heart" v-bind:class="{liked: favoriteData.favorited}">
 		<!-- <i class="fas fa-heart"></i> -->
 		<button 
 			class="btn btn-sm btn-success like-button" 
-			v-on:click="$emit('like-post', slug); isFavorite = !isFavorite;"
+			v-on:click="$emit('like-post', slug)"
 		>
 			<i class="fas fa-heart"></i>
-			{{favoritesCount}}
+			{{favoriteData.favoritesCount}}
 		</button>
 	</div>
 </template>
@@ -16,15 +16,14 @@
 export default {
 	name: 'Heart',
 	props: {
-        favorited: Boolean,
-		favoritesCount: Number,
+		favoriteData: Object,
+        // favorited: Boolean,
+		// favoritesCount: Number,
 		slug: String
 	},
 	data: () => { return {
-		isFavorite: false
 	}},
 	created() {
-		this.isFavorite = this.favorited;
 	}
 }
 </script>
