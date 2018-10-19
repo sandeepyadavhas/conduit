@@ -8,6 +8,7 @@
 		<div class="row" v-if="!loading">
 			<div class="col-md-8">
 				<h3>{{heading}}</h3>
+				<h5>Page {{selectedPage}}</h5>
 				<ArticleList 
 					:articleData="articleData"
 					:articlesInSinglePage="articlesInSinglePage"
@@ -70,10 +71,10 @@ export default {
 			console.log(slug);
 		},
 		async init() {
-			let articlePromise = this.getArticles(this.articlesInSinglePage, 0);
+			let globalFeedPromise = this.setGlobalArticles();
 			let tagPromise = this.getTagList();
 
-			this.articleData = await articlePromise;
+			await globalFeedPromise;
 			this.tags = await tagPromise;
 
 			this.loading = false;

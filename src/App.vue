@@ -1,7 +1,10 @@
 <template>
-  <div id="app" v-bind:class="{ hide : this.$root.loading}">
-    <Navbar></Navbar>
-    <router-view/>
+  <div id="app">
+    <div class="loader" v-if="this.$root.loading"></div>
+    <div v-bind:class="{ hide : this.$root.loading}">
+      <Navbar></Navbar>
+      <router-view/>
+    </div>
   </div>
 </template>
 
