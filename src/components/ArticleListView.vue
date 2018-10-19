@@ -28,7 +28,6 @@
 import ArticleService from "@/services/ArticleService";
 import TagList from "@/components/TagList.vue";
 import PaginationNumbering from "@/components/PaginationNumbering.vue";
-import ArticleCard from "@/components/ArticleCard.vue";
 import ArticleList from "@/components/ArticleList.vue"
 
 export default {
@@ -36,7 +35,6 @@ export default {
 	components: {
 		TagList,
 		PaginationNumbering,
-		ArticleCard,
 		ArticleList
 	},
 	data: () => {

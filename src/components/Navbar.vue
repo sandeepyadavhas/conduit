@@ -8,14 +8,12 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
+          <!-- <ul class="navbar-nav mr-auto"> -->
             
-            
-          </ul>
+          <ul class="navbar-nav mr-auto navbar-right">
             <li class="nav-link"><router-link to="/">Home</router-link></li>
             <li class="nav-link"><router-link to="/about">About</router-link></li>
             <li class="nav-link">{{username}}</li>
-          <ul>
           </ul>
         </div>
       </div>
@@ -52,11 +50,16 @@ float: left !important;
 }
 
 
-.navbar-nav.navbar-right:last-child {
+.navbar-nav.navbar-right:first-child {
 margin-right: -15px !important;
 }
 
 .navbar-right {
 float: right!important;
 }
+
+/* .nav-link {
+display: inline-block !important;
+width: auto !important;
+} */
 </style>

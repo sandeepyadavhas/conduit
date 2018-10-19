@@ -3,6 +3,7 @@
 		<div class="loader" v-if="loading"></div>
 		<div v-bind:class="{ fade: loading}">
 			<h3>{{article.title}}</h3>
+			<AuthorCard :author="article.author"></AuthorCard>
 			{{new Date(article.createdAt).toDateString()}}
 			<br>
 			<span>{{article.description}}</span>
@@ -10,7 +11,7 @@
 			<span v-for="(tag, index) in article.tagList" :key="index">
 				{{tag}}|
 			</span>
-			<Heart
+			<Heart class="heart"
 				:favoriteData = "favoriteData"
 				:slug="article.slug"
 				v-on:like-post="likeDislikePost($event)"
@@ -24,6 +25,7 @@
 <script>
 import Heart from "@/components/Heart.vue";
 import ArticleService from '@/services/ArticleService';
+import AuthorCard from '@/components/AuthorCard.vue';
 
 export default {
 	name: 'articleCard',
@@ -31,7 +33,8 @@ export default {
 		article: Object
 	},
 	components: {
-		Heart
+		Heart,
+		AuthorCard
 	},
 	data() { return {
 		loading: false
@@ -66,9 +69,16 @@ export default {
 
 <style>
 .articleCard {
+	/* border: 1px solid red; */
 	position: relative;
 }
 .fade {
 	opacity: 0.5;
+}
+.heart {
+	top: 10px;
+	right: 10px;
+	position: absolute;
+	/* float: right; */
 }
 </style>

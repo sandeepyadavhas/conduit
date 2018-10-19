@@ -4,7 +4,10 @@ function getAuthHeader() {
 	if (localStorage.jwtToken) {
 		return { 'Authorization': 'Token ' + localStorage.jwtToken};
 	}
-	else return {};
+	else {
+		location.href = "/login";
+		return {};
+	}
 }
 
 export default {
@@ -35,6 +38,16 @@ export default {
 	},
 	getProfile(username) {
 		return Api().get('/profiles/'+username, {
+			headers: getAuthHeader()
+		})
+	},
+	follow(username) {
+		return Api().post('/profiles/'+username+'/follow', {}, {
+			headers: getAuthHeader()
+		})
+	},
+	unfollow(username) {
+		return Api().delete('/profiles/'+username+'/follow', {
 			headers: getAuthHeader()
 		})
 	}
