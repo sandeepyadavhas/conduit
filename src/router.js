@@ -7,13 +7,13 @@ import ArticleListView from './components/ArticleListView.vue'
 import ArticleView from './views//ArticleView.vue'
 import NewArticle from './components/NewArticle.vue'
 import Profile from './views/Profile.vue'
+import Logout from './views/Logout.vue'
 
 Vue.use(Router)
 
 export default new Router({
 	mode: 'history',
 	base: process.env.BASE_URL,
-	canReuse: false,
 	routes: [
 		{
 			path: '/',
@@ -44,6 +44,11 @@ export default new Router({
 			path: '/profile/:username',
 			name: 'profile',
 			component: Profile
+		},
+		{
+			path: '/logout',
+			name: 'logout',
+			component: Logout
 		}
 	]
 })

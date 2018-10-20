@@ -12,7 +12,14 @@
           <ul>
             <li><router-link to="/">Home</router-link></li>
             <li><router-link to="/new"><i class="fas fa-edit"></i>&nbsp;New&nbsp;Article</router-link></li>
-            <li v-if="user"><router-link class="username" :to="'/profile/'+user.username">{{user.username}}</router-link></li>
+            <div class="username-container" v-if="user">
+              <li><router-link class="username no-underline" :to="'/profile/'+user.username">{{user.username}}</router-link></li>
+              <li class="logout"><router-link class="no-underline" to="logout">Logout</router-link></li>
+            </div>
+            <div v-else class="login-signup-container">
+              <li><router-link to="/login">Login</router-link></li>
+              <li><router-link to="/register">Register</router-link></li>
+            </div>
           </ul>
         <!-- </div> -->
       </div>
@@ -29,6 +36,11 @@ export default {
   computed: {
     user() {
       return this.$root.user;
+    }
+  },
+  methods: {
+    logout() {
+      console.log('logout');
     }
   }
 };
@@ -49,7 +61,23 @@ ul {
   margin-top: 10px;
   word-wrap: none;
 }
-.username {
+.logout{
+  display: none;
+  position: absolute;
+  bottom: -30px;
+  right: 0px;
+}
+.username-container {
+  display: inline;
+  position: relative;
+}
+.username-container:hover .logout {
+  display: inline;
+}
+.no-underline {
   text-decoration: none;
+}
+.login-signup-container {
+  display: inline;
 }
 </style>

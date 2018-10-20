@@ -1,10 +1,15 @@
 import Api from '@/services/Api'
 
-function getAuthHeader() {
+function getAuthHeader(strict) {
 	if (localStorage.jwtToken) {
 		return { 'Authorization': 'Token ' + localStorage.jwtToken};
 	}
-	else return {};
+	else {
+		if (strict) {
+			location.href = '/login';
+		}
+		return {};
+	}
 }
 
 export default {
@@ -14,7 +19,7 @@ export default {
 				limit: limit,
 				offset: offset,
 			},
-			headers: getAuthHeader()
+			headers: getAuthHeader(false)
 		};
 		if (tag) {
 			config.params.tag = tag;
@@ -27,7 +32,7 @@ export default {
 				limit: limit,
 				offset: offset,
 			},
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		};
 		return Api().get('/articles/feed', config);
 	},
@@ -35,31 +40,33 @@ export default {
 		return Api().get('/tags');
 	},
 	getArticle(slug) {
-		return Api().get('/articles/'+slug);
+		return Api().get('/articles/'+slug, {
+			headers: getAuthHeader(false)
+		});
 	},
 	addComment(slug, data) {
 		return Api().post('/articles/'+slug+'/comments', data, {
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		});
 	},
 	getComments(slug) {
 		return Api().get('/articles/'+slug+'/comments', {
-			headers: getAuthHeader()
+			headers: getAuthHeader(false)
 		});
 	},
 	addArticle(data) {
 		return Api().post('/articles', data, {
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		});
 	},
 	likePost(slug) {
 		return Api().post('/articles/'+slug+'/favorite', {}, {
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		});
 	},
 	dislikePost(slug) {
 		return Api().delete('/articles/'+slug+'/favorite', {
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		});
 	}
 }

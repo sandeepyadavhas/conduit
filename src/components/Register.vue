@@ -1,26 +1,44 @@
 <template>
-	<div class="register">
+	<div class="register container">
 		<form v-on:submit.prevent="register">
-		<input 
-			type="text"
-			v-model="username"
-			name="username"
-			placeholder="username"
-		/> <br>
-		<input 
-			type="text"
-			v-model="email"
-			name="email"
-			placeholder="email"
-		/> <br>
-		<input 
-			type="password"
-			v-model="password"
-			name="password"
-			placeholder="password"
-		/> <br>
-		<input type="submit"> <br>
-		{{status}}
+
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<input 
+					type="text"
+					v-model="email"
+					name="email"
+					placeholder="Enter Email"
+					class="form-control"
+					id="email"
+					aria-describedby="emailHelp"
+				/>
+			</div>
+
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input 
+					type="text"
+					v-model="username"
+					name="username"
+					placeholder="Enter Username"
+					class="form-control"
+					id="username"
+				/>
+			</div>
+
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input 
+					type="password"
+					v-model="password"
+					name="password"
+					placeholder="Enter Password"
+					class="form-control"
+					id="password"
+				/>
+			</div>
+			<div class="text-center"><input type="submit"><br>{{status}}</div>
 		</form>
 	</div>
 </template>
@@ -31,9 +49,9 @@ import UserService from '@/services/UserService'
 export default {
 	name: 'Register',
 	data: () => { return{
-		username: 'a',
-		email: 'b',
-		password: 'c',
+		username: '',
+		email: '',
+		password: '',
 		status: 'status'
 	}},
 	methods: {

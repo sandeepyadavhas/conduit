@@ -1,5 +1,6 @@
 <template>
 	<div class="home">
+		This is an Obsolete file and is not used in the project
 		<img alt="Vue logo" src="../assets/logo.png">
 		<HelloWorld msg="Welcome to Your Vue.js App"/>
 		<button v-if="loggedIn" @click="logout">Logout</button>

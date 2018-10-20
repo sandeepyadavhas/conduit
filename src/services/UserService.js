@@ -1,11 +1,13 @@
 import Api from '@/services/Api'
 
-function getAuthHeader() {
+function getAuthHeader(strict) {
 	if (localStorage.jwtToken) {
 		return { 'Authorization': 'Token ' + localStorage.jwtToken};
 	}
 	else {
-		location.href = "/login";
+		if (strict) {
+			location.href = '/login';
+		}
 		return {};
 	}
 }
@@ -33,22 +35,22 @@ export default {
 	},
 	getUser() {
 		return Api().get('/user', {
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		});
 	},
 	getProfile(username) {
 		return Api().get('/profiles/'+username, {
-			headers: getAuthHeader()
+			headers: getAuthHeader(false)
 		})
 	},
 	follow(username) {
 		return Api().post('/profiles/'+username+'/follow', {}, {
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		})
 	},
 	unfollow(username) {
 		return Api().delete('/profiles/'+username+'/follow', {
-			headers: getAuthHeader()
+			headers: getAuthHeader(true)
 		})
 	}
 }
