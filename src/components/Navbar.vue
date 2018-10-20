@@ -9,10 +9,10 @@
         <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
           <!-- <ul class="navbar-nav mr-auto"> -->
             
-          <ul class="ul">
+          <ul>
             <li><router-link to="/">Home</router-link></li>
-            <!-- <li><router-link to="/about">About</router-link></li> -->
-            <li v-if="user">{{user.username}}</li>
+            <li><router-link to="/new"><i class="fas fa-edit"></i>&nbsp;New&nbsp;Article</router-link></li>
+            <li v-if="user"><router-link class="username" :to="'/profile/'+user.username">{{user.username}}</router-link></li>
           </ul>
         <!-- </div> -->
       </div>
@@ -45,6 +45,11 @@ ul li{
   padding: 5px;
 }
 ul {
+  text-align: right;
   margin-top: 10px;
+  word-wrap: none;
+}
+.username {
+  text-decoration: none;
 }
 </style>

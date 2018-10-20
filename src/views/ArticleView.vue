@@ -53,7 +53,7 @@ export default {
 			};
 			const response = await ArticleService.addComment(this.slug, obj);
 			if (response && response.data && response.data.comment) {
-				this.comments.push(response.data.comment);
+				this.comments.unshift(response.data.comment);
 			}
 			this.commentText = '';
 

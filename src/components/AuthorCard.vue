@@ -21,7 +21,7 @@ export default {
 	},
 	computed: {
 		followUnfollowText() {
-			return (this.author.following) ? 'Follow' : 'Unfollow' ;
+			return (this.author.following) ? 'Unfollow' : 'Follow' ;
 		}
 	},
 	methods: {
@@ -33,7 +33,7 @@ export default {
 				this.setAuthor(this.author, response.data.profile);
 			}
 
-			this.$parent.loading = true;
+			this.$parent.loading = false;
 		},
 		setAuthor(author, newAuthor) {
 			Object.keys(newAuthor).forEach(function(key) {
