@@ -68,5 +68,20 @@ export default {
 		return Api().delete('/articles/'+slug+'/favorite', {
 			headers: getAuthHeader(true)
 		});
+	},
+	getPostByAuthor(author, limit, offset, favorited) {
+		let config = {
+			params: {
+				author: author,
+				limit: limit,
+				offset: offset,
+			},
+			headers: getAuthHeader(false)
+		};
+		if (favorited) {
+			delete config.params.author;
+			config.params.favorited = author;
+		}
+		return Api().get('/articles', config);
 	}
 }

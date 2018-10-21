@@ -27,14 +27,12 @@
 <script>
 import ArticleService from "@/services/ArticleService";
 import TagList from "@/components/TagList.vue";
-import PaginationNumbering from "@/components/PaginationNumbering.vue";
 import ArticleList from "@/components/ArticleList.vue"
 
 export default {
 	name: "articleListView",
 	components: {
 		TagList,
-		PaginationNumbering,
 		ArticleList
 	},
 	data: () => {
