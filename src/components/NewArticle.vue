@@ -1,7 +1,7 @@
 <template>
 	<div class="newarticle container">
 		<div class="loader" v-if="loading"></div>
-		<div class="main" v-if="!loading">
+		<div class="main" v-if="!loading && isOwner">
 			<form v-on:submit.prevent="publishArticle">
 				<div class="form-group">
 					<label for="articleTitle">Article Title</label>
@@ -40,22 +40,69 @@ export default {
 			description: '',
 			body: '',
 			tagList: '',
-		}
+		},
+		modeEnum: {
+			add: 0,
+			edit: 1
+		},
+		currentMode: 0
 	}},
+	props: {
+		edit: Boolean
+	},
 	methods: {
+		async getArticle(slug) {
+			const response = await ArticleService.getArticle(slug);
+			if (response && response.data && response.data.article) {
+				return response.data.article;
+			}
+			else return null;
+		},
 		async publishArticle() {
 			this.loading = true;
-			let article = this.article;
+
 			let data = {
-				title: article.title,
-				description: article.description,
-				body: article.body,
-				tagList: article.tagList.split(',')
+				title: this.article.title,
+				description: this.article.description,
+				body: this.article.body,
+				tagList: this.article.tagList.toString().split(',')
 			}
-			const response = await ArticleService.addArticle(data);
+
+			const response = await (this.edit)? ArticleService.updateArticle(this.slug, data) : ArticleService.addArticle(data) ;
+
 			if (response && response.data && response.data.article) {
 				this.$router.push('/article/'+response.data.article.slug);
 			}
+			this.loading = false;
+		}
+	},
+	computed: {
+		slug() {
+			return this.$route.params.slug;
+		},
+		user() {
+			return this.$root.user;
+		},
+		isOwner() {
+			if (this.$root.user && this.$root.user.username == this.article.author.username) {
+				return true;
+			}
+			return false;
+		}
+	},
+	async created() {
+		if (this.edit) {
+			this.loading = true;
+
+			console.log(this.$root.user);
+			const articleData = await this.getArticle(this.slug);
+			if (this.user.username != articleData.author.username) {
+				alert('Must be your post to edit');
+				this.$router.push('/');
+				return;
+			}
+			this.article = articleData;
+
 			this.loading = false;
 		}
 	}

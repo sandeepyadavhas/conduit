@@ -38,7 +38,8 @@ export default new Router({
 		{
 			path: '/new',
 			name: 'createArticle',
-			component: NewArticle
+			component: NewArticle,
+			props: { edit: false }
 		},
 		{
 			path: '/profile/:username',
@@ -49,6 +50,12 @@ export default new Router({
 			path: '/logout',
 			name: 'logout',
 			component: Logout
-		}
+		},
+		// {
+		// 	path: '/edit/:slug',
+		// 	name: 'editArticle',
+		// 	component: NewArticle,
+		// 	props: { edit: true }
+		// }
 	]
 })

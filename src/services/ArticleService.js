@@ -59,6 +59,11 @@ export default {
 			headers: getAuthHeader(true)
 		});
 	},
+	updateArticle(slug, data) {
+		return Api().put('/articles/'+slug, data, {
+			headers: getAuthHeader(true)
+		});
+	},
 	likePost(slug) {
 		return Api().post('/articles/'+slug+'/favorite', {}, {
 			headers: getAuthHeader(true)

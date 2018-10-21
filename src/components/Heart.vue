@@ -17,8 +17,6 @@ export default {
 	name: 'Heart',
 	props: {
 		favoriteData: Object,
-        // favorited: Boolean,
-		// favoritesCount: Number,
 		slug: String
 	},
 	data: () => { return {

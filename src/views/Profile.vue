@@ -24,6 +24,8 @@
 						<button class="btn btn-outline-primary" v-on:click="getAuthorArticles(false)">Articles Posted</button>
 						<button class="btn btn-outline-primary" v-on:click="getAuthorArticles(true)">Favorite Articles</button>
 					</div>
+					<h3>{{(favoritedArticlesShowing)? 'Favorited Articles' : 'Articles Posted'}}</h3>
+					<h5>Page {{selectedPage}}</h5>
 					<ArticleList 
 						:articleData="articleData"
 						:articlesInSinglePage="articlesInSinglePage"

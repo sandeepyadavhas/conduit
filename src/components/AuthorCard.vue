@@ -13,9 +13,6 @@ export default {
 		author: Object
 	},
 	computed: {
-		followUnfollowText() {
-			return (this.author.following) ? 'Unfollow' : 'Follow' ;
-		}
 	},
 	methods: {
 	}
@@ -23,17 +20,13 @@ export default {
 </script>
 
 <style>
-.follow-btn {
-	padding: 0 5px;
-	margin: 5px;
-}
-.followed {
-	background-color: #007bff !important;
-	color: white;
-}
 .profile-pic {
 	height: 1.5em;
 	widows: auto;
 	border-radius: 50%;
+}
+.authorCard {
+	display: inline;
+	margin-right: 30px;
 }
 </style>
